@@ -1,0 +1,19 @@
+# systemd unit for accountant-bot.
+# Install: cp deploy/accountant-bot.service /etc/systemd/system/ && systemctl daemon-reload && systemctl enable --now accountant-bot
+[Unit]
+Description=Telegram budget accountant bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/accountant-bot
+EnvironmentFile=/opt/accountant-bot/.env
+ExecStart=/usr/bin/node /opt/accountant-bot/dist/main.js
+Restart=always
+RestartSec=5
+User=accountant
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
